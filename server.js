@@ -40,9 +40,12 @@ app.post('/api/contact', async (req, res) => {
         await newLead.save();
         console.log(`📩 New Lead Saved: ${name} (${email})`);
 
-        // --- EMAIL NOTIFICATION SETUP ---
+       // --- EMAIL NOTIFICATION SETUP ---
         const transporter = nodemailer.createTransport({
-            service: 'gmail',
+            host: 'smtp.gmail.com',
+            port: 587,
+            secure: false, // This means we will upgrade to secure TLS later
+            requireTLS: true, // Forces modern TLS encryption
             auth: {
                 user: process.env.EMAIL_USER, 
                 pass: process.env.EMAIL_PASS  
