@@ -1,0 +1,471 @@
+:root {
+    --bg-dark: #050505;
+    --surface: rgba(20, 20, 20, 0.6);
+    --surface-hover: rgba(30, 30, 30, 0.8);
+    --primary: #3b82f6;
+    --secondary: #8b5cf6;
+    --accent: #10b981;
+    --text-main: #ffffff;
+    --text-muted: #a1a1aa;
+    --border: rgba(255, 255, 255, 0.08);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Plus Jakarta Sans', sans-serif;
+}
+
+body {
+    background-color: var(--bg-dark);
+    color: var(--text-main);
+    line-height: 1.6;
+    overflow-x: hidden;
+}
+::-webkit-scrollbar {
+    width: 10px;
+}
+/* The track (the background line the scrollbar moves along) */
+::-webkit-scrollbar-track {
+    background: #030014; 
+    border-left: 1px solid rgba(139, 92, 246, 0.15); /* Faint purple line */
+}
+
+::-webkit-scrollbar-thumb {
+    /* Gradient matching your primary and secondary colors */
+    background: linear-gradient(180deg, var(--primary), var(--secondary));
+    border-radius: 100px;
+    border: 2px solid #030014; /* Padding effect */
+}
+
+::-webkit-scrollbar-thumb:hover {
+    /* Reverses the gradient on hover for a subtle interaction */
+    background: linear-gradient(180deg, var(--secondary), var(--primary));
+}
+/* =========================================
+   Subtle Ambient Color Background
+   ========================================= */
+.bg-animation {
+    position: fixed;
+    top: 0; left: 0; width: 100vw; height: 100vh;
+    z-index: -1;
+    overflow: hidden;
+    background-color: #05050a; /* Deepest tinted black */
+}
+
+/* The Technical Grid (Very Faint) */
+.bg-animation::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-image: 
+        linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    background-size: 60px 60px;
+    
+    /* Fades the grid smoothly into the background */
+    mask-image: radial-gradient(ellipse at center, rgba(0,0,0,0.6) 10%, rgba(0,0,0,0) 80%);
+    -webkit-mask-image: radial-gradient(ellipse at center, rgba(0,0,0,0.6) 10%, rgba(0,0,0,0) 80%);
+    z-index: 1;
+}
+
+/* Soft, slow-moving ambient light */
+.orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(150px); /* Massive blur creates a soft wash of color */
+    opacity: 0.15; /* Very low opacity is the secret to making it subtle */
+    animation: slowDrift 30s infinite alternate ease-in-out;
+    z-index: 0;
+    display: block; /* Ensures they are visible again */
+}
+
+/* Deep, sophisticated colors instead of bright neon */
+.orb-1 { width: 70vw; height: 70vw; background: #3730a3; top: -30%; left: -10%; } /* Deep Indigo */
+.orb-2 { width: 60vw; height: 60vw; background: #6b21a8; bottom: -20%; right: -10%; animation-delay: -10s; } /* Deep Purple */
+.orb-3 { width: 50vw; height: 50vw; background: #0369a1; top: 40%; left: 30%; animation-delay: -20s; } /* Deep Ocean Blue */
+
+@keyframes slowDrift {
+    0% { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(3%, 3%) scale(1.05); }
+}
+
+/* Navbar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 8%;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    z-index: 100;
+    background: rgba(5, 5, 5, 0.5);
+    -webkit-backdrop-filter: blur(20px);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+}
+
+.logo {
+    font-size: 1.8rem;
+    font-weight: 800;
+    letter-spacing: -1px;
+}
+.logo .dot { color: var(--primary); }
+
+.nav-links { list-style: none; display: flex; gap: 35px; align-items: center; }
+.nav-links a { color: var(--text-muted); text-decoration: none; font-weight: 600; font-size: 0.95rem; transition: color 0.3s; }
+.nav-links a:hover { color: var(--text-main); }
+
+/* Buttons */
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    padding: 14px 28px;
+    border-radius: 100px;
+    color: white !important;
+    text-decoration: none;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+    box-shadow: 0 4px 15px rgba(139, 92, 246, 0.3);
+    display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(139, 92, 246, 0.5);
+    filter: brightness(1.1);
+}
+
+.btn-secondary {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border);
+    padding: 14px 28px;
+    border-radius: 100px;
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+}
+.btn-secondary:hover { background: rgba(255, 255, 255, 0.1); border-color: rgba(255, 255, 255, 0.2); }
+
+/* =========================================
+   Hero Section Layout
+   ========================================= */
+.hero {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    padding: 0 8%;
+    padding-top: 80px;
+}
+.hero-content { max-width: 650px; }
+.hero-layout {
+    display: grid;
+    grid-template-columns: 1.2fr 1fr; /* Text gets slightly more room than the image */
+    gap: 60px;
+    align-items: center;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+.hero-actions { display: flex; gap: 20px; }
+
+/* =========================================
+   Social Links
+   ========================================= */
+.social-links {
+    display: flex;
+    gap: 15px;
+    margin-top: 40px;
+}
+
+.social-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+/* Official Brand Colors on Hover */
+.social-btn.linkedin-btn:hover {
+    color: #0a66c2; /* LinkedIn Blue */
+    border-color: #0a66c2;
+    box-shadow: 0 10px 20px rgba(10, 102, 194, 0.3);
+}
+
+.social-btn.github-btn:hover {
+    color: #ffffff; /* GitHub White */
+    border-color: #ffffff;
+    box-shadow: 0 10px 20px rgba(255, 255, 255, 0.2);
+}
+
+/* =========================================
+   Profile Photo Card
+   ========================================= */
+.hero-image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.profile-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 32px;
+    padding: 20px;
+    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
+    /* Gives the card a playful 3-degree tilt */
+    transform: rotate(3deg); 
+    transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+    max-width: 350px;
+    width: 100%;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 30px rgba(59, 130, 246, 0.1);
+}
+
+/* Straightens out and floats up on hover */
+.profile-card:hover {
+    transform: rotate(0deg) translateY(-10px);
+    border-color: rgba(255, 255, 255, 0.2);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5), 0 0 40px rgba(139, 92, 246, 0.2);
+}
+
+.profile-card img {
+    width: 100%;
+    border-radius: 20px;
+    aspect-ratio: 1 / 1; /* Forces the image to be a perfect square */
+    object-fit: cover;
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    margin-bottom: 20px;
+}
+
+.profile-card-info {
+    text-align: center;
+    padding-bottom: 10px;
+}
+
+.profile-card-info h3 {
+    font-size: 1.5rem;
+    font-weight: 800;
+    margin-bottom: 5px;
+    letter-spacing: -0.5px;
+}
+
+.profile-card-info p {
+    color: var(--primary);
+    font-weight: 600;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+@media (max-width: 992px) {
+    .hero-layout {
+        grid-template-columns: 1fr; /* Stacks everything into one column */
+        text-align: center;
+        gap: 40px;
+    }
+    .hero-content { margin: 0 auto; }
+    .hero-actions, .social-links { justify-content: center; }
+    .profile-card { 
+        transform: rotate(0deg); /* Removes the tilt on mobile */
+        margin: 0 auto; 
+    }
+}
+.badge {
+    display: inline-block;
+    padding: 8px 16px;
+    background: rgba(16, 185, 129, 0.1);
+    border: 1px solid rgba(16, 185, 129, 0.2);
+    color: var(--accent);
+    border-radius: 100px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 25px;
+    letter-spacing: 0.5px;
+}
+
+.hero h1 {
+    font-size: 4.5rem;
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -2px;
+    margin-bottom: 25px;
+}
+
+.gradient-text {
+    background: linear-gradient(to right, #60a5fa, #c084fc);
+    -webkit-background-clip: text;
+    color: transparent;
+}
+
+.hero p { font-size: 1.25rem; color: var(--text-muted); margin-bottom: 40px; max-width: 600px; }
+.hero-actions { display: flex; gap: 20px; }
+
+/* Layout & Typography */
+.section { padding: 120px 8%; }
+.section-header { margin-bottom: 60px; max-width: 600px; }
+.section-header h2 { font-size: 3rem; font-weight: 800; letter-spacing: -1px; margin-bottom: 15px; }
+.section-header p { color: var(--text-muted); font-size: 1.1rem; }
+
+/* Grid & Premium Cards */
+.grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 30px; }
+
+.card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 40px 30px;
+    border-radius: 24px;
+    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
+    transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
+    position: relative;
+    overflow: hidden;
+}
+
+/* The shine effect on hover */
+.card::before {
+    content: ''; position: absolute; top: 0; left: -100%; width: 50%; height: 100%;
+    background: linear-gradient(to right, transparent, rgba(255,255,255,0.05), transparent);
+    transform: skewX(-20deg); transition: 0.5s;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+    border-color: rgba(255, 255, 255, 0.2);
+    background: var(--surface-hover);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(139, 92, 246, 0.1);
+}
+.card:hover::before { left: 150%; }
+
+.card-icon { font-size: 2.5rem; margin-bottom: 20px; }
+.card h3 { font-size: 1.5rem; margin-bottom: 15px; font-weight: 700; letter-spacing: -0.5px; }
+.card p { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 25px; }
+
+.tech-stack { display: flex; flex-wrap: wrap; gap: 10px; }
+.tech-stack span {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    padding: 6px 14px;
+    border-radius: 100px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+/* Contact Form */
+.contact-container {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    padding: 60px;
+    border-radius: 32px;
+    max-width: 800px;
+    margin: 0 auto;
+    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
+}
+
+.contact-container h2 { font-size: 2.5rem; letter-spacing: -1px; margin-bottom: 10px; }
+.contact-container p { color: var(--text-muted); margin-bottom: 40px; }
+
+.input-group { display: flex; gap: 20px; margin-bottom: 20px; }
+input, textarea {
+    width: 100%;
+    padding: 18px 24px;
+    background: rgba(0, 0, 0, 0.2);
+    border: 1px solid var(--border);
+    color: white;
+    border-radius: 16px;
+    font-size: 1rem;
+    transition: all 0.3s;
+}
+textarea { resize: vertical; margin-bottom: 20px; }
+
+input:focus, textarea:focus {
+    outline: none;
+    border-color: var(--secondary);
+    background: rgba(139, 92, 246, 0.05);
+}
+
+.btn-submit { width: 100%; padding: 18px; font-size: 1.1rem; }
+.btn-submit:hover .arrow { transform: translateX(5px); }
+.arrow { transition: transform 0.3s; display: inline-block; }
+.status-msg { margin-top: 20px; font-weight: 600; display: none; text-align: center; }
+
+/* Scroll Reveal Animations */
+.reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); }
+.reveal.active { opacity: 1; transform: translateY(0); }
+
+/* Mobile Responsiveness */
+@media (max-width: 768px) {
+    .hero h1 { font-size: 3rem; }
+    .input-group { flex-direction: column; }
+    .hero-actions { flex-direction: column; }
+    .nav-links { display: none; }
+}
+/* =========================================
+   Footer Section
+   ========================================= */
+.footer {
+    padding: 60px 8% 40px;
+    text-align: center;
+    border-top: 1px solid var(--border);
+    margin-top: 80px;
+    background: rgba(5, 5, 5, 0.3);
+}
+
+.footer-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.footer p {
+    color: var(--text-muted);
+    font-size: 0.95rem;
+}
+
+.footer-email {
+    color: var(--text-main);
+    text-decoration: none;
+    font-weight: 700;
+    font-size: 1.2rem;
+    letter-spacing: 0.5px;
+    transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+    display: inline-block;
+}
+
+.footer-email:hover {
+    color: var(--primary);
+    transform: translateY(-2px);
+    text-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
+}
+/* Footer Layout Fix */
+.footer-links {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 25px; /* Space between email and Instagram icon */
+    margin-top: 10px;
+}
+
+/* Instagram Brand Hover */
+.social-btn.instagram-btn:hover {
+    color: #e4408d; /* Instagram Pink/Red */
+    border-color: #e4405f;
+    box-shadow: 0 10px 20px rgba(228, 64, 95, 0.3);
+    background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%,#d6249f 60%,#285AEB 90%);
+    -webkit-background-clip: text; /* Optional: This makes the icon itself look like a gradient */
+}
