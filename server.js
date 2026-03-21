@@ -1,4 +1,5 @@
-const nodemailer = require('nodemailer');
+// Remove: const nodemailer = require('nodemailer');
+const { Resend } = require('resend');
 const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose'); // 1. Import Mongoose
@@ -41,16 +42,17 @@ app.post('/api/contact', async (req, res) => {
         console.log(`📩 New Lead Saved: ${name} (${email})`);
 
        // --- EMAIL NOTIFICATION SETUP ---
-        const transporter = nodemailer.createTransport({
-            host: 'smtp.gmail.com',
-            port: 587,
-            secure: false, // This means we will upgrade to secure TLS later
-            requireTLS: true, // Forces modern TLS encryption
-            auth: {
-                user: process.env.EMAIL_USER, 
-                pass: process.env.EMAIL_PASS  
-            }
+        // --- EMAIL NOTIFICATION SETUP ---
+        const resend = new Resend(process.env.RESEND_API_KEY);
+        
+        await resend.emails.send({
+            from: 'onboarding@resend.dev', // This is Resend's default testing address
+            to: process.env.EMAIL_USER,    // This will send to your Gmail
+            subject: `🚀 New Portfolio Lead: ${name}`,
+            text: `You have a new message from your portfolio website!\n\nName: ${name}\nEmail: ${email}\nMessage:\n${message}`
         });
+        console.log("📧 Email notification sent successfully via Resend!");
+        // --------------------------------
 
         const mailOptions = {
             from: process.env.EMAIL_USER,
