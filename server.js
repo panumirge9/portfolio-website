@@ -9,8 +9,11 @@ const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// 2. Connect to local MongoDB
-mongoose.connect('mongodb://127.0.0.1:27017/portfolioDB')
+// 2. Connect to MongoDB (Local or Cloud)
+// Use the environment variable if it exists, otherwise fallback to local
+const dbURI = process.env.MONGODB_URI || 'mongodb://127.0.0.1:27017/portfolioDB';
+
+mongoose.connect(dbURI)
     .then(() => console.log('✅ MongoDB Connected Successfully'))
     .catch((error) => console.error('❌ MongoDB Connection Error:', error));
 
