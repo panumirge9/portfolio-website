@@ -41,30 +41,20 @@ app.post('/api/contact', async (req, res) => {
         await newLead.save();
         console.log(`📩 New Lead Saved: ${name} (${email})`);
 
-       // --- EMAIL NOTIFICATION SETUP ---
         // --- EMAIL NOTIFICATION SETUP ---
+        const { Resend } = require('resend');
         const resend = new Resend(process.env.RESEND_API_KEY);
         
         await resend.emails.send({
-            from: 'onboarding@resend.dev', // This is Resend's default testing address
-            to: process.env.EMAIL_USER,    // This will send to your Gmail
+            from: 'onboarding@resend.dev', // Resend's default testing address
+            to: process.env.EMAIL_USER,    // Your Gmail
             subject: `🚀 New Portfolio Lead: ${name}`,
             text: `You have a new message from your portfolio website!\n\nName: ${name}\nEmail: ${email}\nMessage:\n${message}`
         });
         console.log("📧 Email notification sent successfully via Resend!");
         // --------------------------------
 
-        const mailOptions = {
-            from: process.env.EMAIL_USER,
-            to: process.env.EMAIL_USER, // Sending the email to yourself
-            subject: `🚀 New Portfolio Lead: ${name}`,
-            text: `You have a new message from your portfolio website!\n\nName: ${name}\nEmail: ${email}\nMessage:\n${message}`
-        };
-
-        await transporter.sendMail(mailOptions);
-        console.log("📧 Email notification sent successfully!");
-        // --------------------------------
-
+        // Send success back to the frontend
         res.status(200).json({ success: true, message: "Lead received and saved." });
 
     } catch (error) {
