@@ -1,3 +1,4 @@
+const nodemailer = require('nodemailer');
 const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose'); // 1. Import Mongoose
@@ -37,8 +38,28 @@ app.post('/api/contact', async (req, res) => {
         
         // Save it to MongoDB
         await newLead.save();
-
         console.log(`📩 New Lead Saved: ${name} (${email})`);
+
+        // --- EMAIL NOTIFICATION SETUP ---
+        const transporter = nodemailer.createTransport({
+            service: 'gmail',
+            auth: {
+                user: process.env.EMAIL_USER, 
+                pass: process.env.EMAIL_PASS  
+            }
+        });
+
+        const mailOptions = {
+            from: process.env.EMAIL_USER,
+            to: process.env.EMAIL_USER, // Sending the email to yourself
+            subject: `🚀 New Portfolio Lead: ${name}`,
+            text: `You have a new message from your portfolio website!\n\nName: ${name}\nEmail: ${email}\nMessage:\n${message}`
+        };
+
+        await transporter.sendMail(mailOptions);
+        console.log("📧 Email notification sent successfully!");
+        // --------------------------------
+
         res.status(200).json({ success: true, message: "Lead received and saved." });
 
     } catch (error) {
