@@ -3,14 +3,13 @@ const revealCallback = (entries, observer) => {
     entries.forEach(entry => {
         if (entry.isIntersecting) {
             entry.target.classList.add('active');
-            // Optional: Stop observing once revealed so it doesn't animate every time you scroll up and down
             observer.unobserve(entry.target); 
         }
     });
 };
 
 const revealOptions = {
-    threshold: 0.15, // Triggers when 15% of the element is visible
+    threshold: 0.15, 
     rootMargin: "0px 0px -50px 0px"
 };
 
@@ -18,12 +17,12 @@ const revealObserver = new IntersectionObserver(revealCallback, revealOptions);
 
 revealElements.forEach(el => revealObserver.observe(el));
 
-// Trigger reveal on load for elements already in view (like the Hero section)
+
 window.addEventListener('load', () => {
     document.querySelector('.hero-content').classList.add('active');
 });
 
-// --- CONTACT FORM LOGIC ---
+
 document.getElementById('contactForm').addEventListener('submit', async (e) => {
     e.preventDefault();
     
@@ -33,7 +32,6 @@ document.getElementById('contactForm').addEventListener('submit', async (e) => {
     const statusText = document.getElementById('formStatus');
     const submitBtn = document.querySelector('.btn-submit');
 
-    // Simple loading state
     const originalText = submitBtn.innerHTML;
     submitBtn.innerHTML = "Sending...";
     submitBtn.disabled = true;
@@ -47,7 +45,7 @@ document.getElementById('contactForm').addEventListener('submit', async (e) => {
 
         if (response.ok) {
             statusText.style.display = 'block';
-            statusText.style.color = '#10b981'; // Emerald green
+            statusText.style.color = '#10b981'; 
             statusText.innerText = "Message transmitted successfully. I will be in touch.";
             document.getElementById('contactForm').reset();
         } else {
@@ -55,7 +53,7 @@ document.getElementById('contactForm').addEventListener('submit', async (e) => {
         }
     } catch (error) {
         statusText.style.display = 'block';
-        statusText.style.color = '#ef4444'; // Red
+        statusText.style.color = '#ef4444'; 
         statusText.innerText = "Connection failed. Please try again.";
     } finally {
         submitBtn.innerHTML = originalText;
