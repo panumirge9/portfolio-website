@@ -6,7 +6,7 @@ Welcome to the repository for my personal developer portfolio! This website serv
 
 This portfolio is designed to be a clean, responsive, and interactive representation of my work. It highlights my ability to build both frontend interfaces and full-stack applications. 
 
-**Live Demo:** https://portfolio-website-xkdr.onrender.com/ 
+**Live Demo:** https://www.panumirge.in
 
 ## 💻 Featured Projects Included
 
