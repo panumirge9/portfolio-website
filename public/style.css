@@ -247,7 +247,6 @@ body {
     border-radius: 20px;
     aspect-ratio: 1 / 1; 
     object-fit: cover;
-    object-position: top; /* <-- ADD THIS LINE to focus the crop on your face */
     border: 1px solid rgba(255, 255, 255, 0.05);
     margin-bottom: 20px;
 }
